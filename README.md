@@ -56,6 +56,35 @@ For subscription users, it authenticates using OAuth flows compatible with popul
 
 ---
 
+---
+
+## Speech-to-text (optional)
+
+This integration can also provide a **speech-to-text entity**
+(`stt.claude_speech_to_text`), so an Assist pipeline can run from microphone to
+reply on a Claude subscription alone — no API key, no local Whisper model.
+
+Select it as the pipeline's speech-to-text engine and pair it with a Claude
+conversation agent from this integration.
+
+- Only appears on **Claude subscription OAuth** entries. The transcription
+  service rejects API-key authentication, so other providers get no STT entity.
+- Streams 16 kHz mono PCM, exactly what the Assist pipeline produces, so no
+  transcoding happens.
+- Sends Assist-exposed entity and area names as recognition hints, which
+  noticeably improves accuracy on device names.
+- **29 languages**: the 20 Anthropic documents for Claude Code dictation, plus
+  `ar`, `ca`, `fi`, `he`, `hu`, `ro`, `th`, `vi`, `zh`, each checked against
+  real audio.
+
+> **How this works.** The transcription endpoint is the one the Claude Code CLI
+> uses for `/voice` dictation. It is not part of Anthropic's public API and is
+> not documented, and Anthropic gates it to their own clients, so it may change
+> or stop working without notice. There is no officially supported alternative:
+> the Claude API accepts no audio input at all. Home Assistant's Whisper and
+> Speech-to-Phrase engines pair with this integration's conversation agent
+> equally well for anyone who would rather not depend on it.
+
 ## How it works
 
 ```
