@@ -100,7 +100,9 @@ async def ws_entry_list(
                 {
                     "subentry_id": subentry.subentry_id,
                     "title": subentry.title,
-                    "disabled": subentry.disabled_by is not None,
+                    # ConfigSubentry has no disabled_by on HA 2026.8; reading it
+                    # directly raises AttributeError and breaks the whole panel.
+                    "disabled": getattr(subentry, "disabled_by", None) is not None,
                 }
             )
 
