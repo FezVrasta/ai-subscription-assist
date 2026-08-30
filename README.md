@@ -10,6 +10,9 @@ Use subscription-backed LLMs (OAuth) as **Home Assistant Assist conversation age
 [![GitHub Release](https://img.shields.io/github/v/release/FezVrasta/ai-subscription-assist)](https://github.com/FezVrasta/ai-subscription-assist/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=FezVrasta&repository=ai-subscription-assist&category=integration)
+
+
 
 > **This is a fork** of [toml0006/claude-assist](https://github.com/toml0006/claude-assist)
 > by Jackson Tomlinson, adding a **speech-to-text platform** so the whole Assist
