@@ -1,8 +1,10 @@
 {
   "name": "AI Subscription Assist",
-  "documentation": "https://github.com/toml0006/ai-subscription-assist",
-  "issue_tracker": "https://github.com/toml0006/ai-subscription-assist/issues",
-  "domains": ["ai_subscription_assist"],
+  "documentation": "https://github.com/FezVrasta/ai-subscription-assist",
+  "issue_tracker": "https://github.com/FezVrasta/ai-subscription-assist/issues",
+  "domains": [
+    "ai_subscription_assist"
+  ],
   "iot_class": "cloud_polling",
   "homeassistant": "2026.2.2",
   "render_readme": true

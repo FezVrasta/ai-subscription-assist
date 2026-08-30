@@ -55,7 +55,7 @@ from .memory_service import (
 from .memory_websocket import async_setup_memory_websocket_api
 from .panel import async_setup_memory_panel
 
-PLATFORMS = (Platform.CONVERSATION,)
+PLATFORMS = (Platform.CONVERSATION, Platform.STT)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 @dataclass(slots=True)
