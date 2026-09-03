@@ -24,6 +24,6 @@
     "httpx>=0.27.0",
     "voluptuous-openapi==0.4.1"
   ],
-  "version": "1.4.1",
+  "version": "1.4.2",
   "issue_tracker": "https://github.com/FezVrasta/ai-subscription-assist/issues"
 }
