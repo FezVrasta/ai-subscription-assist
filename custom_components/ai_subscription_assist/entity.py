@@ -73,7 +73,6 @@ from anthropic.types import (
 )
 from anthropic.types.message_create_params import MessageCreateParamsStreaming
 import voluptuous as vol
-from voluptuous_openapi import convert
 
 from homeassistant.components import conversation
 from homeassistant.config_entries import ConfigSubentry
@@ -121,6 +120,7 @@ from .provider_errors import (
     format_http_error_message,
     format_rate_limited_message,
 )
+from .schema_compat import to_openapi
 
 # Max number of back and forth with the LLM to generate a response
 MAX_TOOL_ITERATIONS = 10
@@ -135,7 +135,7 @@ def _format_tool(
     # exactly that, so drop the keys the same way HA core's anthropic
     # integration does.
     unsupported_keys = {"oneOf", "anyOf", "allOf"}
-    schema = convert(tool.parameters, custom_serializer=custom_serializer)
+    schema = to_openapi(tool.parameters, custom_serializer=custom_serializer)
     schema = {k: v for k, v in schema.items() if k not in unsupported_keys}
 
     return ToolParam(
@@ -154,7 +154,7 @@ def _format_openai_tool(
         "function": {
             "name": tool.name,
             "description": tool.description or "",
-            "parameters": convert(tool.parameters, custom_serializer=custom_serializer),
+            "parameters": to_openapi(tool.parameters, custom_serializer=custom_serializer),
         },
     }
 
@@ -167,7 +167,7 @@ def _format_openai_responses_tool(
         "type": "function",
         "name": tool.name,
         "description": tool.description or "",
-        "parameters": convert(tool.parameters, custom_serializer=custom_serializer),
+        "parameters": to_openapi(tool.parameters, custom_serializer=custom_serializer),
         "strict": False,
     }
 
@@ -179,7 +179,7 @@ def _format_gemini_tool(
     return {
         "name": tool.name,
         "description": tool.description or "",
-        "parametersJsonSchema": convert(tool.parameters, custom_serializer=custom_serializer),
+        "parametersJsonSchema": to_openapi(tool.parameters, custom_serializer=custom_serializer),
     }
 
 
@@ -887,7 +887,7 @@ class AiSubscriptionAssistBaseLLMEntity(Entity):
                     "function": {
                         "name": output_tool,
                         "description": "Use this tool to reply to the user",
-                        "parameters": convert(
+                        "parameters": to_openapi(
                             structure,
                             custom_serializer=chat_log.llm_api.custom_serializer
                             if chat_log.llm_api
@@ -1072,7 +1072,7 @@ class AiSubscriptionAssistBaseLLMEntity(Entity):
                     "type": "function",
                     "name": output_tool,
                     "description": "Use this tool to reply to the user",
-                    "parameters": convert(
+                    "parameters": to_openapi(
                         structure,
                         custom_serializer=chat_log.llm_api.custom_serializer
                         if chat_log.llm_api
@@ -1272,7 +1272,7 @@ class AiSubscriptionAssistBaseLLMEntity(Entity):
                 {
                     "name": output_tool,
                     "description": "Use this tool to reply to the user",
-                    "parametersJsonSchema": convert(
+                    "parametersJsonSchema": to_openapi(
                         structure,
                         custom_serializer=chat_log.llm_api.custom_serializer
                         if chat_log.llm_api
@@ -1607,7 +1607,7 @@ class AiSubscriptionAssistBaseLLMEntity(Entity):
                 ToolParam(
                     name=structure_name,
                     description="Use this tool to reply to the user",
-                    input_schema=convert(
+                    input_schema=to_openapi(
                         structure,
                         custom_serializer=chat_log.llm_api.custom_serializer
                         if chat_log.llm_api
