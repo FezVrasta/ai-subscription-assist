@@ -549,9 +549,16 @@ async def async_setup_entry(
             )
 
     if provider == PROVIDER_CLAUDE_OAUTH:
-        # Set up periodic token refresh (Claude subscription OAuth only).
+        # Check regularly and refresh shortly before expiry (Claude subscription OAuth only).
+        # A fixed long interval counted from setup ignores how old the token already is
+        # (e.g. after a restart) and a single failed refresh then leaves the token expired
+        # until the next tick, so poll often and let a failed attempt be retried.
         async def _periodic_refresh(_now: datetime.datetime) -> None:
-            """Periodically refresh the OAuth token."""
+            """Refresh the OAuth token when it is close to expiry."""
+            expires_at = float(entry.data.get(CONF_EXPIRES_AT, 0))
+            if time.time() <= (expires_at - 600):
+                return
+
             new_token = await _async_refresh_token(hass, entry)
             if new_token:
                 entry.runtime_data = _create_client(hass, new_token)

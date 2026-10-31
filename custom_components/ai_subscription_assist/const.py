@@ -162,5 +162,5 @@ DEPRECATED_MODELS = [
     "claude-3-opus",
 ]
 
-# Token refresh interval (7 hours, tokens expire after 8)
-TOKEN_REFRESH_INTERVAL = 7 * 60 * 60
+# How often to check whether the Claude OAuth token is close to expiry (tokens last 8 hours)
+TOKEN_REFRESH_INTERVAL = 5 * 60
